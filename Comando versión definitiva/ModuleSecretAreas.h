@@ -47,6 +47,8 @@ public:
 	Animation welcometo;
 	Animation yellowstair;
 
+	bool isup = false;
+	bool isdown = false;
 
 };
 

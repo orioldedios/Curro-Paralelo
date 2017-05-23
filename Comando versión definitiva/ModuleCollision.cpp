@@ -8,6 +8,7 @@ ModuleCollision::ModuleCollision()
 	for(uint i = 0; i < MAX_COLLIDERS; ++i)
 		colliders[i] = nullptr;
 
+
 	matrix[COLLIDER_PLAYER_GRENADE][COLLIDER_WALL] = false;
 	matrix[COLLIDER_PLAYER_GRENADE][COLLIDER_PLAYER] = false;
 	matrix[COLLIDER_PLAYER_GRENADE][COLLIDER_ENEMY] = false;

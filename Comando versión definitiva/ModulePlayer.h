@@ -49,6 +49,7 @@ public:
 	SDL_Rect lives;
 	iPoint position;
 	Collider* col;
+	bool move = true;
 	bool dead = false;
 	bool colup = false;
 	bool coldown = false;
