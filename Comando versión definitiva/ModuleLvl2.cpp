@@ -21,6 +21,14 @@ ModuleLvl2::ModuleLvl2(){
 	stairinv.PushBack({ 21, 19, 6, 6 });
 	stairinv.loop = false;
 	stairinv.speed = 0.02f;
+
+	current_stair1_animation = &stairinv;
+	current_stair2_animation = &stairinv;
+	current_stair3_animation = &stairinv;
+	current_stair4_animation = &stairinv;
+	current_stair5_animation = &stairinv;
+	current_stair6_animation = &stairinv;
+
 }
 
 ModuleLvl2::~ModuleLvl2(){}
@@ -50,24 +58,24 @@ bool ModuleLvl2::Start() {
 
 	//Init things
 	top = -2880 + SCREEN_HEIGHT;
-	current_stair1_animation = &stair;
-	current_stair2_animation = &stair;
-	current_stair3_animation = &stair;
-	current_stair4_animation = &stair;
-	current_stair5_animation = &stair;
-	current_stair6_animation = &stair;
 
 	//respawn
 	if (App->secretareas->actual_room == ROOM2 || App->secretareas->actual_room == ROOM3) {
 		App->player->position.y -= 1000;
 		App->render->camera.y -= 1000;
 	}
-
 	if (App->secretareas->actual_room == ROOM4) {
 		App->player->position.y -= 1500;
 		App->render->camera.y -= 1500;
 	}
-
+	if (App->secretareas->actual_room == ROOM5) {
+		App->player->position.y -= 2000;
+		App->render->camera.y -= 2000;
+	}
+	if (App->secretareas->actual_room == ROOM6) {
+		App->player->position.y -= 2500;
+		App->render->camera.y -= 2500;
+	}
 	//Add Enemies
 	App->enemies->AddEnemy(ENEMY_TYPES::CAPTURERGUARD, App->player->position.x, App->player->position.y - 200);
 	App->enemies->AddEnemy(ENEMY_TYPES::WHITEGUARD, App->player->position.x, App->player->position.y - 200);
@@ -158,8 +166,8 @@ bool ModuleLvl2::Start() {
 	//downstairs colliders
 	int j = 0;
 	downstairs[j++] = App->collision->AddCollider({ 242, -(2880 - 2632 - SCREEN_HEIGHT), 8, 8 }, COLLIDER_DOWNSTAIRS);
-	downstairs[j++] = App->collision->AddCollider({ 138, -(2880 - 1544 - SCREEN_HEIGHT), 8, 8 }, COLLIDER_DOWNSTAIRS);
-	downstairs[j++] = App->collision->AddCollider({ 225, -(2880 - 1426 - SCREEN_HEIGHT), 8, 8 }, COLLIDER_DOWNSTAIRS);
+	downstairs[j++] = App->collision->AddCollider({ 130, -(2880 - 1544 - SCREEN_HEIGHT), 8, 8 }, COLLIDER_DOWNSTAIRS);
+	downstairs[j++] = App->collision->AddCollider({ 217, -(2880 - 1426 - SCREEN_HEIGHT), 8, 8 }, COLLIDER_DOWNSTAIRS);
 	downstairs[j++] = App->collision->AddCollider({ 104, -(2880 - 1065 - SCREEN_HEIGHT), 8, 8 }, COLLIDER_DOWNSTAIRS);
 	downstairs[j++] = App->collision->AddCollider({ 88, -(2880 - 743 - SCREEN_HEIGHT), 8, 8 }, COLLIDER_DOWNSTAIRS);
 	downstairs[j++] = App->collision->AddCollider({ 128, -(2880 - 528 - SCREEN_HEIGHT), 8, 8 }, COLLIDER_DOWNSTAIRS);
@@ -192,8 +200,8 @@ update_status ModuleLvl2::Update(){
 	//Render Map
 	App->render->Blit(background, 0, -2880 + SCREEN_HEIGHT, NULL);
 	App->render->Blit(items, 232, -(2880 - 2632 - SCREEN_HEIGHT), &(current_stair1_animation->GetCurrentFrame()));
-	App->render->Blit(items, 129, -(2880 - 1544 - SCREEN_HEIGHT), &(current_stair2_animation->GetCurrentFrame()));
-	App->render->Blit(items, 217, -(2880 - 1424 - SCREEN_HEIGHT), &(current_stair3_animation->GetCurrentFrame()));
+	App->render->Blit(items, 120, -(2880 - 1544 - SCREEN_HEIGHT), &(current_stair2_animation->GetCurrentFrame()));
+	App->render->Blit(items, 208, -(2880 - 1424 - SCREEN_HEIGHT), &(current_stair3_animation->GetCurrentFrame()));
 	App->render->Blit(items, 96, -(2880 - 1065 - SCREEN_HEIGHT), &(current_stair4_animation->GetCurrentFrame()));
 	App->render->Blit(items, 80, -(2880 - 743 - SCREEN_HEIGHT), &(current_stair5_animation->GetCurrentFrame()));
 	App->render->Blit(items, 120, -(2880 - 528 - SCREEN_HEIGHT), &(current_stair6_animation->GetCurrentFrame()));
