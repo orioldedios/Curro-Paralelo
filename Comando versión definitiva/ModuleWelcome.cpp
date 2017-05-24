@@ -8,6 +8,7 @@
 #include "ModuleLvl2.h"
 #include "ModuleAudio.h"
 #include "ModuleSecretAreas.h"
+#include "ModulePlayer.h"
 
 
 ModuleWelcome::ModuleWelcome() {}
@@ -18,6 +19,12 @@ bool ModuleWelcome::Start() {
 
 	LOG("Loading Welcome scene");
 	
+	App->player->live_counter = 4;
+	App->player->granade_counter = 5;
+	App->player->score = 0;
+	App->secretareas->actual_room = ROOM1;
+	App->lvl2->checkpointpassed = false;
+
 	//Textures
 	Area2Option = App->textures->Load("Resources/Screens/Intro_Screen1.png");//foto del fondo
 	ExitOption= App->textures->Load("Resources/Screens/Intro_Screen2.png");//foto del fondo
@@ -28,6 +35,14 @@ bool ModuleWelcome::Start() {
 	//Cameras positions
 	App->render->camera.x = App->render->camera.y = 0;
 	App->audio->Play("Resources/Audio/Themes_SoundTrack/Title Theme.ogg", true);
+	//init stairs
+	App->lvl2->current_stair1_animation = &App->lvl2->stairinv;
+	App->lvl2->current_stair2_animation = &App->lvl2->stairinv;
+	App->lvl2->current_stair3_animation = &App->lvl2->stairinv;
+	App->lvl2->current_stair4_animation = &App->lvl2->stairinv;
+	App->lvl2->current_stair5_animation = &App->lvl2->stairinv;
+	App->lvl2->current_stair6_animation = &App->lvl2->stairinv;
+
 	return true;
 }
 

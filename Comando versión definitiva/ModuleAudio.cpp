@@ -101,14 +101,17 @@ bool ModuleAudio::Stop()
 bool ModuleAudio::CleanUp()
 {
 	LOG("Freeing sound FX, closing Mixer and Audio subsystem");
+
 	if (soundtrack != NULL)
 	{
 		Mix_FreeMusic(soundtrack);
+		soundtrack = nullptr;
 	}
-	if (sounfeffect1 != nullptr)
-	{
+	
+	if (sounfeffect1 != NULL) {
 		Mix_HaltChannel(-1);
 		Mix_FreeChunk(sounfeffect1);
+		sounfeffect1 = nullptr;
 	}
 	Mix_CloseAudio();
 	Mix_Quit();
