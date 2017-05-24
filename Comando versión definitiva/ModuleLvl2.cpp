@@ -9,6 +9,8 @@
 #include "ModuleCollision.h"
 #include "ModuleEnemies.h"
 #include "ModuleAudio.h"
+#include "ModuleParticles.h"
+#include "ModulePowerUp.h"
 #include "ModuleSecretAreas.h"
 
 ModuleLvl2::ModuleLvl2(){
@@ -28,7 +30,6 @@ ModuleLvl2::ModuleLvl2(){
 	current_stair4_animation = &stairinv;
 	current_stair5_animation = &stairinv;
 	current_stair6_animation = &stairinv;
-
 }
 
 ModuleLvl2::~ModuleLvl2(){}
@@ -50,6 +51,8 @@ bool ModuleLvl2::Start() {
 	App->player->Enable();
 	App->collision->Enable();
 	App->enemies->Enable();
+	App->particles->Enable();
+	App->powerup->Enable();
 
 	//Cameras positions
 	App->render->camera.x = App->render->camera.y = 0;
@@ -76,7 +79,9 @@ bool ModuleLvl2::Start() {
 		App->player->position.y -= 2500;
 		App->render->camera.y -= 2500;
 	}
+
 	//Add Enemies
+	App->enemies->AddEnemy(ENEMY_TYPES::BOSSGRENADE, App->player->position.x + 20, App->player->position.y - 200);
 	App->enemies->AddEnemy(ENEMY_TYPES::CAPTURERGUARD, App->player->position.x, App->player->position.y - 200);
 	App->enemies->AddEnemy(ENEMY_TYPES::WHITEGUARD, App->player->position.x, App->player->position.y - 200);
 	App->enemies->AddEnemy(ENEMY_TYPES::WHITEGUARD, App->player->position.x, App->player->position.y - 200 - 200);
@@ -89,6 +94,9 @@ bool ModuleLvl2::Start() {
 	App->enemies->AddEnemy(ENEMY_TYPES::WHITEGUARD, App->player->position.x, App->player->position.y - 200 - 200 - 200 - 200 - 200 - 200 - 200 - 200 - 200);
 	App->enemies->AddEnemy(ENEMY_TYPES::WHITEGUARD, App->player->position.x, App->player->position.y - 200 - 200 - 200 - 200 - 200 - 200 - 200 - 200 - 200 - 200);
 	
+	//PowerUps
+	App->powerup->AddPowerUp(PowerUp_Types::GRENADEx4, 45, -(2880 - 2572 - SCREEN_HEIGHT));
+
 	// Colliders ---
 	int i = 0;
 	wall[i++] = App->collision->AddCollider({ 0, -(2880 - 2166 - SCREEN_HEIGHT), 23, 111 }, COLLIDER_WALL);
@@ -220,6 +228,8 @@ bool ModuleLvl2::CleanUp(){
 	LOG("Unloading lvl2 scene");
 
 	//Disables
+	App->particles->Disable();
+	App->powerup->Disable();
 	App->enemies->Disable();
 	App->textures->Disable();
 	App->collision->Disable();

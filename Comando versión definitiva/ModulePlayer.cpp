@@ -73,7 +73,7 @@ ModulePlayer::ModulePlayer()
 	right.speed = 0.1f;
 
 	// Move ur
-	ur.PushBack({ 50, 25, 17, 22 });
+	ur.PushBack({ 51, 25, 16, 22 });
 	ur.PushBack({ 34, 25, 16, 22 });
 	ur.speed = 0.1f;
 
@@ -121,7 +121,7 @@ bool ModulePlayer::Start()
 	position.y = 140;
 	score = 0;
 	live_counter = 4;
-	granade_counter = 200;
+	granade_counter = 15;
 	col = App->collision->AddCollider({position.x, position.y, 16, 20}, COLLIDER_PLAYER, this);
 	font_score = App->fonts->Load("Resources/ui/Alphabet.png", "0123456789abcdefghiklmnoprstuvwxyq<HIGH=!'·$%&/()-.€@ASD_GHJ", 6);
 
@@ -150,9 +150,6 @@ bool ModulePlayer::CleanUp()
 			time_Counters[i] = 0;
 		}
 	}
-
-
-	time_Counters[stairs] = 0;
 
 	return true;
 }
@@ -249,7 +246,7 @@ update_status ModulePlayer::Update()
 
 		}
 
-	if (current_animation != &downstairs&&current_animation != &upstairs && move) {
+	if (current_animation != &downstairs&&current_animation != &upstairs&& move) {
 		//MOVEMENT
 
 		//LEFT
@@ -651,10 +648,12 @@ void ModulePlayer::OnCollision(Collider* c1, Collider* c2)
 
 	//If it collides with an enemy
 
-	if ((c1->type == COLLIDER_PLAYER && c2->type == COLLIDER_ENEMY)/* && !godmode*/)
-	{
+	if ((c1->type == COLLIDER_PLAYER && (c2->type == COLLIDER_ENEMY || c2->type == COLLIDER_ENEMY_GRENADE_EXPL))/* && !godmode*/) {
 		dead = true;
 	}
+
+	//If it collides with the water
+
 	if ((c1->type == COLLIDER_PLAYER && c2->type == COLLIDER_WATER))
 	{
 		if (c2->rect.x == (c1->rect.x + (c1->rect.w / 2))
@@ -671,6 +670,7 @@ void ModulePlayer::OnCollision(Collider* c1, Collider* c2)
 			/*dead = true;*/
 		}
 	}
+	
 	if (c2->type == COLLIDER_UPSTAIRS&&dead == false) {
 		if (App->secretareas->actual_room == ROOM3&&App->secretareas->ystair == &App->secretareas->yellowstair) {
 		if (current_animation != &upstairs)
@@ -679,7 +679,7 @@ void ModulePlayer::OnCollision(Collider* c1, Collider* c2)
 			current_animation = &upstairs;
 		}
 
-		if (time_Counters[stairs] > 3 && time_Counters[stairs] < 4)
+		if (time_Counters[stairs]>3 && time_Counters[stairs]<4)
 			App->fade->FadeToBlack(App->secretareas, App->lvl2, 0);
 		}
 		else if (App->secretareas->actual_room != ROOM3) {
@@ -691,8 +691,8 @@ void ModulePlayer::OnCollision(Collider* c1, Collider* c2)
 
 			if (time_Counters[stairs] > 3 && time_Counters[stairs] < 4)
 				App->fade->FadeToBlack(App->secretareas, App->lvl2, 0);
-		
-	}
+
+		}
 	}
 	if (c2->type == COLLIDER_DOWNSTAIRS&&dead == false) {
 		if (position.y > -(2880 - 2500 - SCREEN_HEIGHT) && App->lvl2->current_stair1_animation == &App->lvl2->stair) {
@@ -709,7 +709,7 @@ void ModulePlayer::OnCollision(Collider* c1, Collider* c2)
 				App->fade->FadeToBlack(App->lvl2, App->secretareas, 0);
 
 		}
-		else if (position.y < -(2880 - 2500 - SCREEN_HEIGHT) && position.y > -(2880 - 1540 - SCREEN_HEIGHT)&&App->lvl2->current_stair2_animation==&App->lvl2->stair) {
+		else if (position.y < -(2880 - 2500 - SCREEN_HEIGHT) && position.y > -(2880 - 1540 - SCREEN_HEIGHT) && App->lvl2->current_stair2_animation == &App->lvl2->stair) {
 			App->secretareas->actual_room = SECRETROOM::ROOM2;
 			App->player->position.x = 120;
 			App->player->position.y = -(2880 - 1544 - SCREEN_HEIGHT);
@@ -721,7 +721,6 @@ void ModulePlayer::OnCollision(Collider* c1, Collider* c2)
 			}
 			if (time_Counters[stairs] > 2 && time_Counters[stairs] < 3)
 				App->fade->FadeToBlack(App->lvl2, App->secretareas, 0);
-
 		}
 		else if (position.y < -(2880 - 1540 - SCREEN_HEIGHT) && position.y > -(2880 - 1200 - SCREEN_HEIGHT) && App->lvl2->current_stair3_animation == &App->lvl2->stair) {
 			App->secretareas->actual_room = SECRETROOM::ROOM3;
@@ -749,7 +748,6 @@ void ModulePlayer::OnCollision(Collider* c1, Collider* c2)
 			}
 			if (time_Counters[stairs] > 2 && time_Counters[stairs] < 3)
 				App->fade->FadeToBlack(App->lvl2, App->secretareas, 0);
-
 		}
 		else if (position.y < -(2880 - 1000 - SCREEN_HEIGHT) && position.y > -(2880 - 600 - SCREEN_HEIGHT) && App->lvl2->current_stair5_animation == &App->lvl2->stair) {
 			App->secretareas->actual_room = SECRETROOM::ROOM5;
@@ -763,7 +761,6 @@ void ModulePlayer::OnCollision(Collider* c1, Collider* c2)
 			}
 			if (time_Counters[stairs] > 2 && time_Counters[stairs] < 3)
 				App->fade->FadeToBlack(App->lvl2, App->secretareas, 0);
-
 		}
 		else if (position.y < -(2880 - 600 - SCREEN_HEIGHT) && position.y > -(2880 - SCREEN_HEIGHT) && App->lvl2->current_stair6_animation == &App->lvl2->stair) {
 			App->secretareas->actual_room = SECRETROOM::ROOM6;
@@ -777,11 +774,9 @@ void ModulePlayer::OnCollision(Collider* c1, Collider* c2)
 			}
 			if (time_Counters[stairs] > 2 && time_Counters[stairs] < 3)
 				App->fade->FadeToBlack(App->lvl2, App->secretareas, 0);
-
 		}
-
-
 	}
+
 
 	if(c1 == col && dead == false && App->fade->IsFading() == false)
 	{
