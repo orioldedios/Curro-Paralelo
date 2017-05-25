@@ -13,6 +13,7 @@
 #include "ModuleSecretAreas.h"
 #include "ModuleEnemies.h"
 #include "ModuleWelcome.h"
+#include "ModulePowerUp.h"
 
 #include<stdio.h>
 
@@ -47,7 +48,7 @@ ModulePlayer::ModulePlayer()
 	die.loop = false;
 	die.speed = 0.05f;
 
-	//die water animation
+	//die water animation	
 	die_w.PushBack({ 68, 23, 11, 16 });
 	die_w.PushBack({ 98, 27, 12, 14 });
 	die_w.loop = false;
@@ -129,6 +130,7 @@ bool ModulePlayer::Start()
 	font_score = App->fonts->Load("Resources/ui/Alphabet.png", "0123456789abcdefghiklmnoprstuvwxyq<HIGH=!'·$%&/()-.€@ASD_GHJ", 6);
 
 	//An Example of Starting one timer:
+
 	return true;
 }
 
@@ -156,10 +158,10 @@ bool ModulePlayer::CleanUp()
 }
 
 // Update: draw background
-update_status ModulePlayer::Update()
-{
+update_status ModulePlayer::Update(){
+
 	//RESPAWN
-	if (respawn&&!App->secretareas->IsEnabled()) {
+	if (respawn && !App->secretareas->IsEnabled()) {
 		time_Counters[respawn] += 0.02f;
 		move = false;
 		App->enemies->Disable();
@@ -174,7 +176,6 @@ update_status ModulePlayer::Update()
 			App->lvl2->playsoundlvl2 = true;
 		}
 	}
-
 
 	//counters
 	if (current_animation == &upstairs || current_animation == &downstairs)
@@ -265,7 +266,8 @@ update_status ModulePlayer::Update()
 
 		}
 
-	if (current_animation != &downstairs&&current_animation != &upstairs&& move&&!dead) {
+	if (current_animation != &downstairs&&current_animation != &upstairs&& move && !dead) {
+
 		//MOVEMENT
 
 		//LEFT
@@ -578,20 +580,20 @@ update_status ModulePlayer::Update()
 			if (App->secretareas->IsEnabled())
 				App->fade->FadeToBlack(App->secretareas, App->lvl2, 1);
 		}
-			else if (time_Counters[Player_Die] > 3 && live_counter == 0) {
-					if (playsounddead) {
-						granade_counter = 5;
-						App->audio->Play("Resources/Audio/Themes_SoundTrack/Commando (NES) Music - Game Over.ogg", false);
-						playsounddead = false;
-					}
-					if (time_Counters[Player_Die] > 9) {
-						if (App->lvl2->IsEnabled())
-							App->fade->FadeToBlack(App->lvl2, App->welcome, 1);
-						if (App->secretareas->IsEnabled())
-							App->fade->FadeToBlack(App->secretareas, App->welcome, 1);
-					
+		else if (time_Counters[Player_Die] > 3 && live_counter == 0) {
+			if (playsounddead) {
+				granade_counter = 5;
+				App->audio->Play("Resources/Audio/Themes_SoundTrack/Commando (NES) Music - Game Over.ogg", false);
+				playsounddead = false;
+			}
+			if (time_Counters[Player_Die] > 9) {
+				if (App->lvl2->IsEnabled())
+					App->fade->FadeToBlack(App->lvl2, App->welcome, 1);
+				if (App->secretareas->IsEnabled())
+					App->fade->FadeToBlack(App->secretareas, App->welcome, 1);
 
-				
+
+
 			}
 		}
 	}
@@ -707,17 +709,16 @@ void ModulePlayer::OnCollision(Collider* c1, Collider* c2)
 
 	//If it collides with an enemy
 
-	if ((c1->type == COLLIDER_PLAYER && (c2->type == COLLIDER_ENEMY || c2->type == COLLIDER_ENEMY_GRENADE_EXPL))&&dead==false/* && !godmode*/) {
+	if (c2->enemytype != ENEMY_TYPES::RUNNER && (c1->type == COLLIDER_PLAYER && (c2->type == COLLIDER_ENEMY || c2->type == COLLIDER_ENEMY_GRENADE_EXPL)) && dead == false/* && !godmode*/) {
 		dead = true;
 	}
 
 	//If it collides with the water
 
-	if ((c1->type == COLLIDER_PLAYER && c2->type == COLLIDER_WATER)&&!dead)
-	{
+	if ((c1->type == COLLIDER_PLAYER && c2->type == COLLIDER_WATER) && !dead) {
 		if (c2->rect.x == (c1->rect.x + (c1->rect.w / 2))
 			|| (c2->rect.x + c2->rect.w) == (c1->rect.x + (c1->rect.w / 2))
-			|| c2->rect.y == (c1->rect.y + (c1->rect.h /2))
+			|| c2->rect.y == (c1->rect.y + (c1->rect.h / 2))
 			|| (c2->rect.y + c2->rect.h) == (c1->rect.y + (c1->rect.h / 2)))
 		{
 			if (current_animation != &die_w)

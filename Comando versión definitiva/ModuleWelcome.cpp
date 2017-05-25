@@ -18,13 +18,13 @@ ModuleWelcome::~ModuleWelcome() {}
 bool ModuleWelcome::Start() {
 
 	LOG("Loading Welcome scene");
-	
+
 	App->player->live_counter = 4;
 	App->player->granade_counter = 5;
 	App->player->score = 0;
 	App->secretareas->actual_room = ROOM1;
 	App->lvl2->checkpointpassed = false;
-
+	
 	//Textures
 	Area2Option = App->textures->Load("Resources/Screens/Intro_Screen1.png");//foto del fondo
 	ExitOption= App->textures->Load("Resources/Screens/Intro_Screen2.png");//foto del fondo
@@ -42,29 +42,31 @@ bool ModuleWelcome::Start() {
 	App->lvl2->current_stair4_animation = &App->lvl2->stairinv;
 	App->lvl2->current_stair5_animation = &App->lvl2->stairinv;
 	App->lvl2->current_stair6_animation = &App->lvl2->stairinv;
-
 	return true;
 }
 
 update_status ModuleWelcome::Update() {
 
-	if (App->input->keyboard[SDL_SCANCODE_S]==KEY_DOWN||
-		App->input->buttons[SDL_CONTROLLER_BUTTON_DPAD_DOWN]==KEY_DOWN)
-	{
-		if (Menu_Options == MENU::Lvl2)
-			Menu_Options = MENU::exit;
-		else if(Menu_Options == MENU::exit)
-			Menu_Options = MENU::Lvl2;
-	}
-	if (App->input->keyboard[SDL_SCANCODE_W]==KEY_DOWN ||
-		App->input->buttons[SDL_CONTROLLER_BUTTON_DPAD_UP]==KEY_DOWN)
-	{
-		if (Menu_Options == MENU::Lvl2)
-			Menu_Options = MENU::exit;
-		else if (Menu_Options == MENU::exit)
-			Menu_Options = MENU::Lvl2;
-	}
 
+	if (!App->fade->IsFading())
+	{
+		if (App->input->keyboard[SDL_SCANCODE_S] == KEY_DOWN ||
+			App->input->buttons[SDL_CONTROLLER_BUTTON_DPAD_DOWN] == KEY_DOWN)
+		{
+			if (Menu_Options == MENU::Lvl2)
+				Menu_Options = MENU::exit;
+			else if (Menu_Options == MENU::exit)
+				Menu_Options = MENU::Lvl2;
+		}
+		if (App->input->keyboard[SDL_SCANCODE_W] == KEY_DOWN ||
+			App->input->buttons[SDL_CONTROLLER_BUTTON_DPAD_UP] == KEY_DOWN)
+		{
+			if (Menu_Options == MENU::Lvl2)
+				Menu_Options = MENU::exit;
+			else if (Menu_Options == MENU::exit)
+				Menu_Options = MENU::Lvl2;
+		}
+	}
 	//Render Map
 	if(Menu_Options==MENU::Lvl2)
 	App->render->Blit(Area2Option, 0,  0, NULL);

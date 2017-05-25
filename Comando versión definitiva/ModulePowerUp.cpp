@@ -6,6 +6,7 @@
 #include "ModulePowerUp.h"
 #include "ModuleAudio.h"
 #include "ModulePlayer.h"
+#include "ModuleEnemies.h"
 
 ModulePowerUp::ModulePowerUp()
 {
@@ -67,6 +68,11 @@ ModulePowerUp::ModulePowerUp()
 	bag.PushBack({ 6,46,12,15 });
 	bag.PushBack({ 33,47,12,15 });
 	bag.speed = 0.08f;
+
+	ally_captured.PushBack({ 176,122,16,22 });
+	ally_captured.PushBack({ 193,122,16,22 });
+	ally_captured.speed = 0.02f;
+
 }
 
 ModulePowerUp::~ModulePowerUp()
@@ -106,7 +112,7 @@ update_status ModulePowerUp::Update()
 {
 	for (uint i = 0; i < MAX_POWERUP; ++i)
 	{
-		if (powerups[i] != nullptr)
+		if (powerups[i] != nullptr && !powerups[i]->hidden)
 		{
 			if (powerups[i]->type == PowerUp_Types::BINOCULAR)
 			{
@@ -144,13 +150,17 @@ update_status ModulePowerUp::Update()
 			{
 				App->render->Blit(graphics, powerups[i]->position.x, powerups[i]->position.y, &bag.GetCurrentFrame());
 			}
+			else if (powerups[i]->type == PowerUp_Types::ALLY_CAPTURED)
+			{
+				App->render->Blit(graphics, powerups[i]->position.x, powerups[i]->position.y, &ally_captured.GetCurrentFrame());
+			}
 		}
 	}
 
 	return UPDATE_CONTINUE;
 }
 
-void ModulePowerUp::AddPowerUp(const PowerUp_Types type, int x, int y)
+void ModulePowerUp::AddPowerUp(const PowerUp_Types type, int x, int y, bool hidden)
 {
 	for (uint i = 0; i < MAX_POWERUP; ++i)
 	{
@@ -198,13 +208,17 @@ void ModulePowerUp::AddPowerUp(const PowerUp_Types type, int x, int y)
 				col.w = 12;
 				col.h = 15;
 				break;
+			case PowerUp_Types::ALLY_CAPTURED:
+				col.w = 16;
+				col.h = 22;
+				break;
 			}
 			powerup->position.x = x;
 			powerup->position.y = y;
 			powerup->collider = App->collision->AddCollider(col, COLLIDER_POWERUP, this);
 			powerup->collider->poweruptype = type;
 			powerup->type = type;
-
+			powerup->hidden = hidden;
 			powerups[i] = powerup;
 			break;
 		}
@@ -218,56 +232,78 @@ void ModulePowerUp::OnCollision(Collider* c1, Collider* c2)
 		// Always destroy particles that collide
 		if (powerups[i] != nullptr && powerups[i]->collider == c1)
 		{
-			if (c2->type == COLLIDER_PLAYER) 
+			if (c2->type == COLLIDER_PLAYER && !powerups[i]->hidden)
 			{
+				App->audio->PlaySound("Resources/Audio/Sound Effects/Grenades_Powerups Taken.wav");
 				switch (c1->poweruptype)
 				{
 				case PowerUp_Types::BINOCULAR:
+					App->player->PlayerPowerUps[PowerUp_Types::BINOCULAR] = true;
 					c1->to_delete = true;
 					delete powerups[i];
 					powerups[i] = nullptr;
 					break;
 				case PowerUp_Types::BULLETPROOF_VEST:
+					App->player->godmode = true;
 					c1->to_delete = true;
 					delete powerups[i];
 					powerups[i] = nullptr;
 					break;
 				case PowerUp_Types::GASOLINE:
+					App->player->score += 1000;
 					c1->to_delete = true;
 					delete powerups[i];
 					powerups[i] = nullptr;
 					break;
 				case PowerUp_Types::GRENADEx4:
+					App->player->granade_counter += 4;
 					c1->to_delete = true;
 					delete powerups[i];
 					powerups[i] = nullptr;
 					break;
 				case PowerUp_Types::GRENADEx5:
+					App->player->granade_counter += 5;
 					c1->to_delete = true;
 					delete powerups[i];
 					powerups[i] = nullptr;
 					break;
 				case PowerUp_Types::MEDAL_OF_HONOR:
+					App->player->score += 1000;
+					App->player->live_counter += 1;
 					c1->to_delete = true;
 					delete powerups[i];
 					powerups[i] = nullptr;
 					break;
 				case PowerUp_Types::MEDAL:
+					App->player->score += 10000;
 					c1->to_delete = true;
 					delete powerups[i];
 					powerups[i] = nullptr;
 					break;
 				case PowerUp_Types::BARREL:
+					App->player->score += 1000;
 					c1->to_delete = true;
 					delete powerups[i];
 					powerups[i] = nullptr;
 					break;
 				case PowerUp_Types::BAG:
+					App->player->score += 1000;
+					c1->to_delete = true;
+					delete powerups[i];
+					powerups[i] = nullptr;
+					break;
+				case PowerUp_Types::ALLY_CAPTURED:
+					App->player->score += 1000;
+					App->enemies->AddEnemy(ENEMY_TYPES::RUNNER, powerups[i]->position.x, powerups[i]->position.y);
 					c1->to_delete = true;
 					delete powerups[i];
 					powerups[i] = nullptr;
 					break;
 				}
+			}
+			else if (c2->type == COLLIDER_PLAYER_GRENADE_EXPL && powerups[i]->hidden)
+			{
+				powerups[i]->hidden = false;
 			}
 			break;
 		}

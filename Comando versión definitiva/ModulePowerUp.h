@@ -9,22 +9,8 @@
 #include "ModuleCollision.h"
 
 #define MAX_POWERUP 100
+#include "ModuleCollision.h"
 
-
-enum PowerUp_Types 
-{
-	POWERUP_NO_TYPE = -1,
-	BINOCULAR,
-	BULLETPROOF_VEST,
-	GASOLINE,
-	GRENADEx4,
-	GRENADEx5,
-	MEDAL,
-	MEDAL_OF_HONOR,
-	BARREL,
-	BAG,
-	MAX_POWERUP_TYPE
-};
 
 struct PowerUp
 {
@@ -33,6 +19,7 @@ struct PowerUp
 	iPoint position;
 	PowerUp_Types type;
 	bool fx_played = false;
+	bool hidden = false;
 
 
 	PowerUp();
@@ -50,7 +37,7 @@ public:
 	bool CleanUp();
 	void OnCollision(Collider* c1, Collider* c2);
 
-	void AddPowerUp(const PowerUp_Types type, int x, int y);
+	void AddPowerUp(const PowerUp_Types type, int x, int y, bool hidden = false);
 
 	Animation binocular;
 	Animation bulletproof_vest;
@@ -61,6 +48,8 @@ public:
 	Animation medal_of_honor;
 	Animation barrel;
 	Animation bag;
+	Animation ally_captured;
+
 	SDL_Texture* graphics = nullptr;
 
 private:

@@ -2,6 +2,7 @@
 #include "ModuleInput.h"
 #include "ModuleRender.h"
 #include "ModuleCollision.h"
+#include "ModulePowerUp.h"
 
 ModuleCollision::ModuleCollision()
 {
@@ -113,6 +114,8 @@ ModuleCollision::ModuleCollision()
 	matrix[COLLIDER_ENEMY][COLLIDER_UPSTAIRS] = false;
 	matrix[COLLIDER_ENEMY][COLLIDER_DOWNSTAIRS] = false;
 	matrix[COLLIDER_ENEMY][COLLIDER_PLAYER_GRENADE] = false;
+	matrix[COLLIDER_ENEMY][COLLIDER_PLAYER_GRENADE_EXPL] = true;
+
 
 	matrix[COLLIDER_PLAYER_SHOT][COLLIDER_WALL] = true;
 	matrix[COLLIDER_PLAYER_SHOT][COLLIDER_PLAYER] = false;
@@ -161,6 +164,7 @@ ModuleCollision::ModuleCollision()
 	matrix[COLLIDER_POWERUP][COLLIDER_ANTIBULLET] = false;
 	matrix[COLLIDER_POWERUP][COLLIDER_UPSTAIRS] = false;
 	matrix[COLLIDER_POWERUP][COLLIDER_DOWNSTAIRS] = false;
+	matrix[COLLIDER_POWERUP][COLLIDER_PLAYER_GRENADE_EXPL] = true;
 }
 
 // Destructor
