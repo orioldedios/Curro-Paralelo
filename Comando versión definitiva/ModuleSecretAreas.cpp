@@ -89,12 +89,11 @@ bool ModuleSecretAreas::Start() {
 		wall[i++] = App->collision->AddCollider({ 0, 0, 256, 31 }, COLLIDER_WALL);
 		wall[i++] = App->collision->AddCollider({ 44, 31, 212, 25 }, COLLIDER_WALL);
 		wall[i++] = App->collision->AddCollider({ 0, 31, 16, 193 }, COLLIDER_WALL);
-		wall[i++] = App->collision->AddCollider({ 16, 88, 16, 136 }, COLLIDER_WALL);
-		wall[i++] = App->collision->AddCollider({ 224, 88, 16, 136 }, COLLIDER_WALL);
+		wall[i++] = App->collision->AddCollider({ 16, 101, 16, 123 }, COLLIDER_WALL);
+		wall[i++] = App->collision->AddCollider({ 224, 101, 16, 123 }, COLLIDER_WALL);
 		wall[i++] = App->collision->AddCollider({ 240, 31, 16, 193 }, COLLIDER_WALL);
-		wall[i++] = App->collision->AddCollider({ 0, 210, 256, 14 }, COLLIDER_WALL);
-		wall[i++] = App->collision->AddCollider({ 32, 88, 80, 49 }, COLLIDER_WALL);
-		wall[i++] = App->collision->AddCollider({ 144, 88, 80, 49 }, COLLIDER_WALL);
+		wall[i++] = App->collision->AddCollider({ 32, 101, 80, 36 }, COLLIDER_WALL);
+		wall[i++] = App->collision->AddCollider({ 144, 101, 80, 36 }, COLLIDER_WALL);
 
 		//UPSTAIRS
 		int j = 0;
@@ -168,14 +167,13 @@ bool ModuleSecretAreas::Start() {
 
 		//UPSTAIRS
 		int j = 0;
-		upstairs[j++] = App->collision->AddCollider({ 40, 44, 2, 2 }, COLLIDER_UPSTAIRS);
-
+		upstairs[j++] = App->collision->AddCollider({ 40, 34, 2, 12 }, COLLIDER_UPSTAIRS);
 
 
 	}
 	else if (App->secretareas->actual_room == SECRETROOM::ROOM4) {
 
-		//SECRETAREA3
+		//SECRETAREA4
 
 		//Textures
 		background1 = App->textures->Load("Resources/Screens/sa4.png");//foto del fondo
@@ -206,27 +204,24 @@ bool ModuleSecretAreas::Start() {
 		wall[i++] = App->collision->AddCollider({ 32, -(448 - 95 - SCREEN_HEIGHT), 4, 25 }, COLLIDER_WALL);
 		wall[i++] = App->collision->AddCollider({ 60, -(448 - 95 - SCREEN_HEIGHT), 4, 25 }, COLLIDER_WALL);
 		wall[i++] = App->collision->AddCollider({ 31, -(448 - 216 - SCREEN_HEIGHT), 17, 48 }, COLLIDER_WALL);
-		wall[i++] = App->collision->AddCollider({ 32, -(448 - 442 - SCREEN_HEIGHT), 208, 6 }, COLLIDER_WALL);
 		wall[i++] = App->collision->AddCollider({ 80, -(448 - 216 - SCREEN_HEIGHT), 160, 50 }, COLLIDER_WALL);
-		wall[i++] = App->collision->AddCollider({ 96, -(448 - 72 - SCREEN_HEIGHT), 16, 144 }, COLLIDER_WALL);
-		wall[i++] = App->collision->AddCollider({ 112, -(448 - 72 - SCREEN_HEIGHT), 48, 48 }, COLLIDER_WALL);
-
+		wall[i++] = App->collision->AddCollider({ 96, -(448 - 88 - SCREEN_HEIGHT), 16, 143 }, COLLIDER_WALL);
+		wall[i++] = App->collision->AddCollider({ 112, -(448 - 88 - SCREEN_HEIGHT), 48, 32 }, COLLIDER_WALL);
 
 		//UPSTAIRS
 		int j = 0;
 		upstairs[j++] = App->collision->AddCollider({ 36, -(448 - 95 - SCREEN_HEIGHT), 24, 5 }, COLLIDER_UPSTAIRS);
 
 		//Allies
-		App->powerup->AddPowerUp(PowerUp_Types::ALLY_CAPTURED, 152, -(448 - 28 - 10 - SCREEN_HEIGHT));
-		App->powerup->AddPowerUp(PowerUp_Types::ALLY_CAPTURED, 184, -(448 - 28 - 10 - SCREEN_HEIGHT));
-		App->powerup->AddPowerUp(PowerUp_Types::ALLY_CAPTURED, 216, -(448 - 28 - 10 - SCREEN_HEIGHT));
-		App->powerup->AddPowerUp(PowerUp_Types::ALLY_CAPTURED, 128, -(448 - 108 - 10 - SCREEN_HEIGHT));
-		App->powerup->AddPowerUp(PowerUp_Types::ALLY_CAPTURED, 184, -(448 - 266 - 10 - SCREEN_HEIGHT));
-
+		App->powerup->AddPowerUp(PowerUp_Types::ALLY_CAPTURED, 152, -(448 - 28 - 10 - 5 - SCREEN_HEIGHT));
+		App->powerup->AddPowerUp(PowerUp_Types::ALLY_CAPTURED, 184, -(448 - 28 - 10 - 5 - SCREEN_HEIGHT));
+		App->powerup->AddPowerUp(PowerUp_Types::ALLY_CAPTURED, 216, -(448 - 28 - 10 - 5 - SCREEN_HEIGHT));
+		App->powerup->AddPowerUp(PowerUp_Types::ALLY_CAPTURED, 128, -(448 - 108 - 10 - 5 - SCREEN_HEIGHT));
+		App->powerup->AddPowerUp(PowerUp_Types::ALLY_CAPTURED, 184, -(448 - 266 - 3 - SCREEN_HEIGHT));
 	}
 	else if (App->secretareas->actual_room == SECRETROOM::ROOM5) {
 
-		//SECRETAREA3
+		//SECRETAREA5
 
 		//Textures
 		background1 = App->textures->Load("Resources/Screens/sa5.png");
@@ -257,30 +252,30 @@ bool ModuleSecretAreas::Start() {
 		wall[i++] = App->collision->AddCollider({ 0, -(448 - SCREEN_HEIGHT), 16, 448 }, COLLIDER_WALL);
 		wall[i++] = App->collision->AddCollider({ 0, -(448 - 0 - SCREEN_HEIGHT), 256, 31 }, COLLIDER_WALL);
 		wall[i++] = App->collision->AddCollider({ 240, -(448 - SCREEN_HEIGHT), 16, 448 }, COLLIDER_WALL);
-		wall[i++] = App->collision->AddCollider({ 48, -(448 - 27 - SCREEN_HEIGHT), 16, 81 }, COLLIDER_WALL);
-		wall[i++] = App->collision->AddCollider({ 32, -(448 - 95 - SCREEN_HEIGHT), 4, 25 }, COLLIDER_WALL);
-		wall[i++] = App->collision->AddCollider({ 176, -(448 - 104 - SCREEN_HEIGHT), 16, 112 }, COLLIDER_WALL);
+		wall[i++] = App->collision->AddCollider({ 48, -(448 - 27 - SCREEN_HEIGHT), 16, 95 }, COLLIDER_WALL);
+		wall[i++] = App->collision->AddCollider({ 176, -(448 - 118 - SCREEN_HEIGHT), 16, 114 }, COLLIDER_WALL);
 		wall[i++] = App->collision->AddCollider({ 16, -(448 - 216 - SCREEN_HEIGHT), 17, 48 }, COLLIDER_WALL);
 		wall[i++] = App->collision->AddCollider({ 71, -(448 - 216 - SCREEN_HEIGHT), 169, 48 }, COLLIDER_WALL);
-		wall[i++] = App->collision->AddCollider({ 96, -(448 - 298 - SCREEN_HEIGHT), 64, 87 }, COLLIDER_WALL);
-		wall[i++] = App->collision->AddCollider({ 140, -(448 - 385 - SCREEN_HEIGHT), 20, 25 }, COLLIDER_WALL);
-		wall[i++] = App->collision->AddCollider({ 96, -(448 - 385 - SCREEN_HEIGHT), 20, 25 }, COLLIDER_WALL);
-
+		wall[i++] = App->collision->AddCollider({ 96, -(448 - 312 - SCREEN_HEIGHT), 64, 73 }, COLLIDER_WALL);
+		wall[i++] = App->collision->AddCollider({ 140, -(448 - 385 - SCREEN_HEIGHT), 20, 12 }, COLLIDER_WALL);
+		wall[i++] = App->collision->AddCollider({ 96, -(448 - 385 - SCREEN_HEIGHT), 20, 12 }, COLLIDER_WALL);
+		wall[i++] = App->collision->AddCollider({ 15, -(448 - 19 - SCREEN_HEIGHT), 34, 24 }, COLLIDER_WALL);
+		wall[i++] = App->collision->AddCollider({ 63, -(448 - 17 - SCREEN_HEIGHT), 149, 26 }, COLLIDER_WALL);
 
 		//UPSTAIRS
 		int j = 0;
-		upstairs[j++] = App->collision->AddCollider({ 217, -(448 - 35 - SCREEN_HEIGHT), 12, 3 }, COLLIDER_UPSTAIRS);
-		upstairs[j++] = App->collision->AddCollider({ 117, -(448 - 386 - SCREEN_HEIGHT), 23, 4 }, COLLIDER_UPSTAIRS);
+		upstairs[j++] = App->collision->AddCollider({ 227, -(448 - 35 - 5 - SCREEN_HEIGHT), 5, 3 }, COLLIDER_UPSTAIRS);
+		upstairs[j++] = App->collision->AddCollider({ 127, -(448 - 386 - SCREEN_HEIGHT), 10, 4 }, COLLIDER_UPSTAIRS);
 
 		//Allies
-		App->powerup->AddPowerUp(PowerUp_Types::ALLY_CAPTURED, 48, -(448 - 102 - 10 - SCREEN_HEIGHT));
-		App->powerup->AddPowerUp(PowerUp_Types::ALLY_CAPTURED, 88, -(448 - 22 - 10 - SCREEN_HEIGHT));
-		App->powerup->AddPowerUp(PowerUp_Types::ALLY_CAPTURED, 152, -(448 - 22 - 10 - SCREEN_HEIGHT));
+		App->powerup->AddPowerUp(PowerUp_Types::ALLY_CAPTURED, 48, -(448 - 102 - 10 - 10 - SCREEN_HEIGHT));
+		App->powerup->AddPowerUp(PowerUp_Types::ALLY_CAPTURED, 88, -(448 - 22 - 10 - 10 - SCREEN_HEIGHT));
+		App->powerup->AddPowerUp(PowerUp_Types::ALLY_CAPTURED, 152, -(448 - 22 - 10 - 10 - SCREEN_HEIGHT));
 
 	}
 	else if (App->secretareas->actual_room == SECRETROOM::ROOM6) {
 
-		//SECRETAREA3
+		//SECRETAREA6
 
 		//Textures
 		background1 = App->textures->Load("Resources/Screens/sa6.png");//foto del fondo
@@ -308,25 +303,19 @@ bool ModuleSecretAreas::Start() {
 		//WALL
 		int i = 0;
 		wall[i++] = App->collision->AddCollider({ 0, -(448 - SCREEN_HEIGHT), 16, 448 }, COLLIDER_WALL);
-		wall[i++] = App->collision->AddCollider({ 0, -(448 - 442 - SCREEN_HEIGHT), 256, 6 }, COLLIDER_WALL);
 		wall[i++] = App->collision->AddCollider({ 240, -(448 - SCREEN_HEIGHT), 16, 448 }, COLLIDER_WALL);
-		wall[i++] = App->collision->AddCollider({ 16, -(448 - 266 - SCREEN_HEIGHT), 64, 42 }, COLLIDER_WALL);
-		wall[i++] = App->collision->AddCollider({ 176, -(448 - 266 - SCREEN_HEIGHT), 64, 42 }, COLLIDER_WALL);
-		wall[i++] = App->collision->AddCollider({ 15, -(448 - 0 - SCREEN_HEIGHT), 97, 88 }, COLLIDER_WALL);
-		wall[i++] = App->collision->AddCollider({ 144, -(448 - 0 - SCREEN_HEIGHT), 97, 88 }, COLLIDER_WALL);
+		wall[i++] = App->collision->AddCollider({ 16, -(448 - 282 - SCREEN_HEIGHT), 64, 32 }, COLLIDER_WALL);
+		wall[i++] = App->collision->AddCollider({ 176, -(448 - 282 - SCREEN_HEIGHT), 64, 32 }, COLLIDER_WALL);
+		wall[i++] = App->collision->AddCollider({ 16, -(448 - 0 - SCREEN_HEIGHT), 96, 74 }, COLLIDER_WALL);
+		wall[i++] = App->collision->AddCollider({ 144, -(448 - 0 - SCREEN_HEIGHT), 96, 74 }, COLLIDER_WALL);
 		wall[i++] = App->collision->AddCollider({ 111, -(448 - 30 - SCREEN_HEIGHT), 6, 26 }, COLLIDER_WALL);
 		wall[i++] = App->collision->AddCollider({ 139, -(448 - 30 - SCREEN_HEIGHT), 5, 26 }, COLLIDER_WALL);
-
+		wall[i++] = App->collision->AddCollider({ 106, -(448 - 0 - SCREEN_HEIGHT), 43, 31 }, COLLIDER_WALL);
 
 		//UPSTAIRS
 		int j = 0;
 		upstairs[j++] = App->collision->AddCollider({ 117, -(448 - 32 - SCREEN_HEIGHT), 22, 4 }, COLLIDER_UPSTAIRS);
-
-
-
 	}
-
-
 	return true;
 }
 
@@ -383,7 +372,7 @@ update_status ModuleSecretAreas::Update() {
 		break;
 	case ROOM5:
 
-		if (App->player->position.x < 50 && App->player->position.y == -(448 - 282 - SCREEN_HEIGHT) && (int)swallposition.y != 221) {
+		if (App->player->position.x < 50 && App->player->position.y == 42 && (int)swallposition.y != 221) {
 			swallposition.y += 0.1;
 			App->player->move = false;
 			if (playdorosound) {

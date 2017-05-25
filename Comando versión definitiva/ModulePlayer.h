@@ -25,6 +25,11 @@ public:
 	SDL_Texture* graphics = nullptr;
 	SDL_Texture* ui_stuff = nullptr;
 	SDL_Texture* graphparticles = nullptr;
+	SDL_Texture* bridge = nullptr;
+	SDL_Texture* room1 = nullptr;
+	SDL_Texture* room4 = nullptr;
+	SDL_Texture* room5 = nullptr;
+	SDL_Texture* room6 = nullptr;
 	int font_score = -1;
 	char score_text[10];
 	char lives_text[10];
@@ -32,6 +37,7 @@ public:
 	uint score = 0;
 	uint live_counter = 4;
 	uint granade_counter = 5;
+	uint highscore = 0;
 	Animation* current_animation = nullptr;
 	Animation upstairs;
 	Animation downstairs;
@@ -65,7 +71,8 @@ public:
 	bool playsoundresp = false;
 	bool respawn = false;
 	bool godmode = false;
-	bool PlayerPowerUps[PowerUp_Types::MAX_POWERUP_TYPE] = {false, false, false, false, false, false, false, false};
+	bool PlayerPowerUps[PowerUp_Types::MAX_POWERUP_TYPE] = { false, false, false, false, false, false, false, false , false , false, false};
+	bool soundhighscore = true;
 };
 
 #endif
