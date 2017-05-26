@@ -27,6 +27,8 @@ enum COUNTERS
 	stairs,
 	gas,
 	respawn,
+	hg_ecounter,
+	mg_ecounter,
 	//Add your counter types here
 	MAX_COUNTER
 };
@@ -44,6 +46,7 @@ enum PowerUp_Types
 	BAG,
 	ALLY_CAPTURED,
 	MEGA_SHOOT,
+	HANDGRANADE,
 	MAX_POWERUP_TYPE
 };
 

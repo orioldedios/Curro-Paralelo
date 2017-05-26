@@ -34,6 +34,7 @@ public:
 	char score_text[10];
 	char lives_text[10];
 	char grenades_text[10];
+	char high_score_text[10];
 	uint score = 0;
 	uint live_counter = 4;
 	uint granade_counter = 5;
@@ -71,7 +72,7 @@ public:
 	bool playsoundresp = false;
 	bool respawn = false;
 	bool godmode = false;
-	bool PlayerPowerUps[PowerUp_Types::MAX_POWERUP_TYPE] = { false, false, false, false, false, false, false, false , false , false, false};
+	bool PlayerPowerUps[PowerUp_Types::MAX_POWERUP_TYPE] = { false, false, false, false, false, false, false, false , false , false, false, false};
 	bool soundhighscore = true;
 };
 
