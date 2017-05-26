@@ -40,6 +40,7 @@ public:
 	uint granade_counter = 5;
 	uint highscore = 0;
 	Animation* current_animation = nullptr;
+
 	Animation upstairs;
 	Animation downstairs;
 	Animation up;
@@ -52,6 +53,19 @@ public:
 	Animation dr;
 	Animation die;
 	Animation die_w;
+
+	Animation throwing;
+	Animation throwing_godmode;
+	Animation upgodmode;
+	Animation downgodmode;
+	Animation leftgodmode;
+	Animation rightgodmode;
+	Animation urgodmode;
+	Animation ulgodmode;
+	Animation dlgodmode;
+	Animation drgodmode;
+
+
 	SDL_Rect bridgelvl2;
 	SDL_Rect granade;
 	SDL_Rect lives;
@@ -72,6 +86,7 @@ public:
 	bool playsoundresp = false;
 	bool respawn = false;
 	bool godmode = false;
+	bool shortgodmode = false;
 	bool PlayerPowerUps[PowerUp_Types::MAX_POWERUP_TYPE] = { false, false, false, false, false, false, false, false , false , false, false, false};
 	bool soundhighscore = true;
 };
