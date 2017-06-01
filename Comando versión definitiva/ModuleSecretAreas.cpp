@@ -67,7 +67,6 @@ bool ModuleSecretAreas::Start() {
 	App->enemies->Enable();
 	App->particles->Enable();
 	App->powerup->Enable();
-	
 
 	for (int i = 0; i < NUM_POWERUPS_SA; i++)
 	{

@@ -29,8 +29,10 @@ enum COUNTERS
 	respawn,
 	hg_ecounter,
 	mg_ecounter,
+	ingamegodmode_counter,
 	shortgodmode_counter,
 	godidle,
+	bye,
 	//Add your counter types here
 	MAX_COUNTER
 };

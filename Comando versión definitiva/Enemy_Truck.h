@@ -1,21 +1,25 @@
-#ifndef __ENEMY_KNIFE_H__
-#define __ENEMY_KNIFE_H__
+#ifndef __ENEMY_TRUCK_H__
+#define __ENEMY_TRUCK_H__
 
 #include "Enemy.h"
 
-class Enemy_Knife : public Enemy
+class Enemy_Truck : public Enemy
 {
 private:
-	float wave = -1.0f;
-	bool going_up = true;
 	int original_y = 0;
 	int original_x = 0;
-	Animation Knife_Left;
-	Animation Knife_Right;
+
+	Animation Truck_Left;
+
 	bool moving[4] = { false, false, false, false };
 	bool* movingptr = moving;
+
 public:
-	bool* getMoving() const;
+	bool move = true;
+	bool firstSpawn = false;
+	float counterTruck = 0.0f;
+
+	/*bool* getMoving() const;
 	void ColPathDown();
 	void ColPathUp();
 	void ColPathRight();
@@ -23,9 +27,9 @@ public:
 	void PathUp();
 	void PathDown();
 	void PathLeft();
-	void PathRight();
+	void PathRight();*/
 	Animation getDie();
-	Enemy_Knife(int x, int y);
+	Enemy_Truck(int x, int y);
 	void Move();
 };
 

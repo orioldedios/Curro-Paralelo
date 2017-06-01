@@ -86,7 +86,7 @@ bool ModuleLvl2::Start() {
 
 	//Add Enemies
 	//App->enemies->AddEnemy(ENEMY_TYPES::BOSSGRENADE, (SCREEN_WIDTH / 2) - 7 + 20, -(2880 - 2796 - SCREEN_HEIGHT) - 200);
-	App->enemies->AddEnemy(ENEMY_TYPES::BOSSGRENADE, 113, -(2880 - 35 - SCREEN_HEIGHT));
+	/*App->enemies->AddEnemy(ENEMY_TYPES::BOSSGRENADE, 113, -(2880 - 35 - SCREEN_HEIGHT));
 	App->enemies->AddEnemy(ENEMY_TYPES::BOSSGRENADE, 59, -(2880 - 298 - SCREEN_HEIGHT));
 	App->enemies->AddEnemy(ENEMY_TYPES::BOSSGRENADE, 104, -(2880 - 361 - SCREEN_HEIGHT));
 	App->enemies->AddEnemy(ENEMY_TYPES::BOSSGRENADE, 136, -(2880 - 360 - SCREEN_HEIGHT));
@@ -243,8 +243,8 @@ bool ModuleLvl2::Start() {
 	App->enemies->AddEnemy(ENEMY_TYPES::WHITEGUARD, 186, -(2880 - 446 - SCREEN_HEIGHT));
 
 	App->enemies->AddEnemy(ENEMY_TYPES::WHITEGUARD, 115, -(2880 - 463 - SCREEN_HEIGHT));
-	App->enemies->AddEnemy(ENEMY_TYPES::WHITEGUARD, 92, -(2880 - 451 - SCREEN_HEIGHT));
-	App->enemies->AddEnemy(ENEMY_TYPES::WHITEGUARD, 70, -(2880 - 466 - SCREEN_HEIGHT));
+	App->enemies->AddEnemy(ENEMY_TYPES::WHITEGUARD, 92, -(2880 - 451 - SCREEN_HEIGHT));*/
+	App->enemies->AddEnemy(ENEMY_TYPES::PATHWHITEGUARD, 70, -(2880 - 2600 - SCREEN_HEIGHT));
 
 	//PowerUps
 	if (!App->powerups_taken[pu_taken_lvl2::granade1]) {
