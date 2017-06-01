@@ -29,7 +29,6 @@ enum COUNTERS
 	respawn,
 	hg_ecounter,
 	mg_ecounter,
-	ingamegodmode_counter,
 	shortgodmode_counter,
 	godidle,
 	bye,

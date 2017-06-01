@@ -228,12 +228,15 @@ bool ModulePlayer::Start()
 	playsounddead = true;
 	playsounddie = true;
 	playsoundresp = true;
+	winsound = true;
+	endaudio = true;
 	current_animation = &up;
 	graphics = App->textures->Load("Resources/Animations/Main Character Blue.png");
-	byebye= App->textures->Load("Resources/Screens/byebye.png");
+	byebye = App->textures->Load("Resources/Screens/byebye.png");
 	ui_stuff = App->textures->Load("Resources/ui/ui_stuff.png");
 	graphparticles = App->textures->Load("Resources/Sprites/Shoots and Explosions/Shoots_and_explosions.png");
 	bridge = App->textures->Load("Resources/Screens/bridgelvl2.png");//puente
+	bunkers = App->textures->Load("Resources/Screens/bunkers.png");
 	room1 = App->textures->Load("Resources/Screens/sa1-walls.png");
 	room4 = App->textures->Load("Resources/Screens/sa4-walls.png");
 	room5 = App->textures->Load("Resources/Screens/sa5-walls.png");
@@ -261,6 +264,7 @@ bool ModulePlayer::CleanUp()
 	App->textures->Unload(ui_stuff);
 	App->textures->Unload(graphparticles);
 	App->textures->Unload(bridge);
+	App->textures->Unload(bunkers);
 	App->textures->Unload(room1);
 	App->textures->Unload(room4);
 	App->textures->Unload(room5);
@@ -285,7 +289,7 @@ bool ModulePlayer::CleanUp()
 update_status ModulePlayer::Update() {
 
 	//win
-	if (App->render->camera.y < -(2880 -100- SCREEN_HEIGHT) && App->enemies->Enemies_Alive()==0) {
+	if (App->render->camera.y < -(2880 - 100 - SCREEN_HEIGHT) && App->enemies->Enemies_Alive() == 0) {
 		win = true;
 	}
 	if (win) {
@@ -328,14 +332,16 @@ update_status ModulePlayer::Update() {
 
 		}
 		if (position.y == -(2880 + 50 - SCREEN_HEIGHT)) {
-			App->render->Blit(byebye, 0, -(2880  - SCREEN_HEIGHT),nullptr);
-			if (time_Counters[bye] > 20) {
+			if (endaudio) {
+				App->audio->Play("Resources/Audio/Themes_SoundTrack/Commando (NES) Music - Ending Theme.ogg", false);
+				endaudio = false;
+			}
+			App->render->Blit(byebye, 0, -(2880 - SCREEN_HEIGHT), nullptr);
+			if (time_Counters[bye] > 40) {
 				App->fade->FadeToBlack(App->lvl2, App->welcome, 1);
 			}
 		}
 	}
-
-
 	//shortgodmode
 	if (shortgodmode) {
 		time_Counters[COUNTERS::shortgodmode_counter] += 0.02;
@@ -380,6 +386,134 @@ update_status ModulePlayer::Update() {
 			App->lvl2->playsoundlvl2 = true;
 		}
 	}
+
+
+	//Win, die and lose one live
+
+	if (App->input->keyboard[SDL_SCANCODE_LALT] == KEY_IDLE &&
+		App->input->keyboard[SDL_SCANCODE_F3] == KEY_DOWN)
+	{
+		live_counter = 1;
+		dead = true;
+
+	}
+
+	if (App->input->keyboard[SDL_SCANCODE_LALT] == KEY_IDLE &&
+		App->input->keyboard[SDL_SCANCODE_F4] == KEY_DOWN)
+	{
+		dead = true;
+	}
+
+
+	//Changing rooms automatically
+
+	if (App->input->keyboard[SDL_SCANCODE_LALT] == KEY_IDLE &&
+		App->input->keyboard[SDL_SCANCODE_F6] == KEY_DOWN)
+	{
+		if (App->secretareas->IsEnabled())
+			App->fade->FadeToBlack(App->secretareas, App->secretareas, 2, SECRETROOM::ROOM1);
+		else if (App->lvl2->IsEnabled())
+			App->fade->FadeToBlack(App->lvl2, App->secretareas, 2, SECRETROOM::ROOM1);
+	}
+
+	if (App->input->keyboard[SDL_SCANCODE_LALT] == KEY_IDLE &&
+		App->input->keyboard[SDL_SCANCODE_F7] == KEY_DOWN)
+	{
+		if (App->secretareas->IsEnabled())
+			App->fade->FadeToBlack(App->secretareas, App->secretareas, 2, SECRETROOM::ROOM2);
+		else if (App->lvl2->IsEnabled())
+			App->fade->FadeToBlack(App->lvl2, App->secretareas, 2, SECRETROOM::ROOM2);
+	}
+
+	if (App->input->keyboard[SDL_SCANCODE_LALT] == KEY_IDLE &&
+		App->input->keyboard[SDL_SCANCODE_F8] == KEY_DOWN)
+	{
+		if (App->secretareas->IsEnabled())
+			App->fade->FadeToBlack(App->secretareas, App->secretareas, 2, SECRETROOM::ROOM3);
+		else if (App->lvl2->IsEnabled())
+			App->fade->FadeToBlack(App->lvl2, App->secretareas, 2, SECRETROOM::ROOM3);
+	}
+
+	if (App->input->keyboard[SDL_SCANCODE_LALT] == KEY_IDLE &&
+		App->input->keyboard[SDL_SCANCODE_F9] == KEY_DOWN)
+	{
+		if (App->secretareas->IsEnabled())
+			App->fade->FadeToBlack(App->secretareas, App->secretareas, 2, SECRETROOM::ROOM4);
+		else if (App->lvl2->IsEnabled())
+			App->fade->FadeToBlack(App->lvl2, App->secretareas, 2, SECRETROOM::ROOM4);
+	}
+
+	if (App->input->keyboard[SDL_SCANCODE_LALT] == KEY_IDLE &&
+		App->input->keyboard[SDL_SCANCODE_F10] == KEY_DOWN)
+	{
+		if (App->secretareas->IsEnabled())
+			App->fade->FadeToBlack(App->secretareas, App->secretareas, 2, SECRETROOM::ROOM5);
+		else if (App->lvl2->IsEnabled())
+			App->fade->FadeToBlack(App->lvl2, App->secretareas, 2, SECRETROOM::ROOM5);
+	}
+
+	if (App->input->keyboard[SDL_SCANCODE_LALT] == KEY_IDLE &&
+		App->input->keyboard[SDL_SCANCODE_F11] == KEY_DOWN)
+	{
+		if (App->secretareas->IsEnabled())
+			App->fade->FadeToBlack(App->secretareas, App->secretareas, 2, SECRETROOM::ROOM6);
+		else if (App->lvl2->IsEnabled())
+			App->fade->FadeToBlack(App->lvl2, App->secretareas, 2, SECRETROOM::ROOM6);
+	}
+
+	//Debug for power ups
+
+	if ((App->input->keyboard[SDL_SCANCODE_LALT] == KEY_DOWN || App->input->keyboard[SDL_SCANCODE_LALT] == KEY_REPEAT) &&
+		App->input->keyboard[SDL_SCANCODE_F1] == KEY_DOWN)
+	{
+		App->powerup->AddPowerUp(PowerUp_Types::GRENADEx4, position.x, position.y - 20);
+	}
+	if ((App->input->keyboard[SDL_SCANCODE_LALT] == KEY_DOWN || App->input->keyboard[SDL_SCANCODE_LALT] == KEY_REPEAT) &&
+		App->input->keyboard[SDL_SCANCODE_F2] == KEY_DOWN)
+	{
+		App->powerup->AddPowerUp(PowerUp_Types::GRENADEx5, position.x, position.y - 20);
+	}
+	if ((App->input->keyboard[SDL_SCANCODE_LALT] == KEY_DOWN || App->input->keyboard[SDL_SCANCODE_LALT] == KEY_REPEAT) &&
+		App->input->keyboard[SDL_SCANCODE_F3] == KEY_DOWN)
+	{
+		App->powerup->AddPowerUp(PowerUp_Types::GASOLINE, position.x, position.y - 20);
+	}
+	if ((App->input->keyboard[SDL_SCANCODE_LALT] == KEY_DOWN || App->input->keyboard[SDL_SCANCODE_LALT] == KEY_REPEAT) &&
+		App->input->keyboard[SDL_SCANCODE_F4] == KEY_DOWN)
+	{
+		App->powerup->AddPowerUp(PowerUp_Types::BAG, position.x, position.y - 20);
+	}
+	if ((App->input->keyboard[SDL_SCANCODE_LALT] == KEY_DOWN || App->input->keyboard[SDL_SCANCODE_LALT] == KEY_REPEAT) &&
+		App->input->keyboard[SDL_SCANCODE_F5] == KEY_DOWN)
+	{
+		App->powerup->AddPowerUp(PowerUp_Types::BINOCULAR, position.x, position.y - 20);
+	}
+	if ((App->input->keyboard[SDL_SCANCODE_LALT] == KEY_DOWN || App->input->keyboard[SDL_SCANCODE_LALT] == KEY_REPEAT) &&
+		App->input->keyboard[SDL_SCANCODE_F6] == KEY_DOWN)
+	{
+		App->powerup->AddPowerUp(PowerUp_Types::BULLETPROOF_VEST, position.x, position.y - 20);
+	}
+	if ((App->input->keyboard[SDL_SCANCODE_LALT] == KEY_DOWN || App->input->keyboard[SDL_SCANCODE_LALT] == KEY_REPEAT) &&
+		App->input->keyboard[SDL_SCANCODE_F7] == KEY_DOWN)
+	{
+		App->powerup->AddPowerUp(PowerUp_Types::MEDAL, position.x, position.y - 20);
+	}
+	if ((App->input->keyboard[SDL_SCANCODE_LALT] == KEY_DOWN || App->input->keyboard[SDL_SCANCODE_LALT] == KEY_REPEAT) &&
+		App->input->keyboard[SDL_SCANCODE_F8] == KEY_DOWN)
+	{
+		App->powerup->AddPowerUp(PowerUp_Types::MEDAL_OF_HONOR, position.x, position.y - 20);
+	}
+	if ((App->input->keyboard[SDL_SCANCODE_LALT] == KEY_DOWN || App->input->keyboard[SDL_SCANCODE_LALT] == KEY_REPEAT) &&
+		App->input->keyboard[SDL_SCANCODE_F9] == KEY_DOWN)
+	{
+		PlayerPowerUps[MEGA_SHOOT] = true;
+	}
+	if ((App->input->keyboard[SDL_SCANCODE_LALT] == KEY_DOWN || App->input->keyboard[SDL_SCANCODE_LALT] == KEY_REPEAT) &&
+		App->input->keyboard[SDL_SCANCODE_F10] == KEY_DOWN)
+	{
+		PlayerPowerUps[HANDGRANADE] = true;
+	}
+
 
 	//counters
 	if (current_animation == &upstairs || current_animation == &downstairs)
@@ -631,7 +765,7 @@ update_status ModulePlayer::Update() {
 
 		}
 
-	if (current_animation != &downstairs&&current_animation != &upstairs&& move && !dead ) {
+	if (current_animation != &downstairs&&current_animation != &upstairs&& move && !dead) {
 
 		//MOVEMENT
 
@@ -1028,7 +1162,6 @@ update_status ModulePlayer::Update() {
 					time_Counters[COUNTERS::godidle] = 0;
 
 
-
 			}
 			else {
 				App->render->Blit(graphics, position.x, position.y, &(current_animation->frames[0]));
@@ -1041,6 +1174,7 @@ update_status ModulePlayer::Update() {
 		if (App->lvl2->IsEnabled())
 		{
 			App->render->Blit(bridge, 0, -(2880 - 1344 - SCREEN_HEIGHT), &bridgelvl2);
+			App->render->Blit(bunkers, 0, -(2880 - SCREEN_HEIGHT), NULL);
 		}
 		else if (App->secretareas->IsEnabled())
 		{
@@ -1061,7 +1195,7 @@ update_status ModulePlayer::Update() {
 			}
 		}
 	}
-	else if (dead == true && !App->welcome->IsEnabled()) {
+	else if (dead == true && !App->welcome->IsEnabled() && !win) {
 		App->render->Blit(graphics, position.x, position.y, &(current_animation->GetCurrentFrame()));
 		time_Counters[Player_Die] += 0.02;
 		move = false;
@@ -1101,7 +1235,7 @@ update_status ModulePlayer::Update() {
 			}
 		}
 	}
-	if (!App->welcome->IsEnabled()&& !win) {
+	if (!App->welcome->IsEnabled()&&!win) {
 		// Draw UI (score) --------------------------------------
 		sprintf(score_text, "%06d", score);
 		sprintf(lives_text, "%01d", live_counter);

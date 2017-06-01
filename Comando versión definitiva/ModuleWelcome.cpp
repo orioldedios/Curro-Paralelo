@@ -30,6 +30,7 @@ bool ModuleWelcome::Start() {
 	App->player->soundhighscore = true;
 	App->player->win = false;
 
+
 	for (int i = 0; i < StartTypes::MAX_TYPES; i++)
 	{
 		App->start_types_arr[i] = false;
